@@ -56,6 +56,7 @@ void loop()
   Serial.write("]");
   Serial.println();
   
+// Resetting the values since the values were getting added up..  
   currentSensorADCVal = 0.0;
   averageCurrentSensorADCVal = 0.0;  
   
