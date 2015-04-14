@@ -27,28 +27,37 @@ void loop()
   
   //getting current sensor value
 //  currentSensorADCVal = analogRead(1) - 511;
+
+
   for(int i=0; i<150; i++){
     double val = analogRead(1);
     double offsetAdjustedVal = val - 511.5;
     currentSensorADCVal+= offsetAdjustedVal;
   }
-  
   averageCurrentSensorADCVal = currentSensorADCVal/150.0;
+
 
   if(averageCurrentSensorADCVal<0.0){
     averageCurrentSensorADCVal = 0.0; 
   }
+
+//  //Current Sensor ADC value to current value...
+//  // 1 ADC step > 4.89 mV
+//  // 4.89 mv > 0.0489A
+//  // Every ADC step > 4.89mV == 0.0489A
   
-  Serial.write("The Current ADC value: ");
-  Serial.println(averageCurrentSensorADCVal);
+  Serial.write(" [Current(ADC), Current(Amps), Wattage(W):");
+  Serial.write("[");
+  Serial.print(averageCurrentSensorADCVal);
+  Serial.write(",");
+  Serial.print(averageCurrentSensorADCVal*0.0489);
+  Serial.write(",");
+  Serial.print(averageCurrentSensorADCVal*0.0489*12);
+  Serial.write("]");
+  Serial.println();
   
   currentSensorADCVal = 0.0;
-  averageCurrentSensorADCVal = 0.0;
-  
-  //Current Sensor ADC value to current value...
-  // 1 ADC value = 4.89 mV
-  // 4.89 mv = 0.0489A
-  // Every ADC step is 4.89mV and 0.0489A
+  averageCurrentSensorADCVal = 0.0;  
   
   delay(1000);
 }
