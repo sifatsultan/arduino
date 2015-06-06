@@ -1,29 +1,29 @@
-double voltageADCVal = 0.0; // read the Vout from voltage divider
-double averageVoltageADCVal = 0.0;
-double currentSensorADCVal = 0.0;   
-double averageCurrentSensorADCVal = 0.0;
-int i = 0;
-int values[500];
 
+float currentADC = 0.0;
+float voltageADC = 0.0;
+float averageVoltageADC = 0.0;
+float voltage = 0.0;
+const double scale = 330 / (330 + 470);
+const int relayPin = 9;
 
-void setup()
-{
+void setup() {
+  pinMode(relayPin, OUTPUT);
+  // put your setup code here, to run once:
   Serial.begin(9600);
 }
 
-
-void loop()
-{
- values[i] = analogRead(1);
-// Serial.println(analogRead(1));
- 
-i++;
-  if( i == 500){
-    Serial.println("I just enterd the loop");
-    for(int j=0; j<500; j++){
-      int x = values[j];
-      Serial.println(x);      
-    }
+void loop() {
+  // put your main code here, to run repeatedly:
+  for (int i = 0; i < 150; i++) {
+    voltageADC += analogRead(0);
+    delay(2);
   }
-  
+
+  averageVoltageADC = voltageADC / 150;
+  voltage = averageVoltageADC / scale;
+
+  if (voltage <= 11.5) {
+    digitalWrite(relayPin, HIGH);
+  }
+
 }
